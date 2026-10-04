@@ -1,0 +1,26 @@
+﻿<resources>
+    <string name="app_name">Ad Skipper</string>
+    <string name="accessibility_service_description">Automatically skips ads in YouTube and YouTube Music by tapping the Skip button for you. Runs quietly in the background while those apps are open.</string>
+    <string name="accessibility_service_label">Ad Skipper</string>
+    <string name="enable_service">Enable Ad Skipper</string>
+    <string name="service_status_disabled">Ad Skipper is off</string>
+    <string name="service_status_enabled">Ad Skipper is on</string>
+    <string name="view_log">View Log</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="log_title">Skip Log</string>
+    <string name="log_empty">No skips recorded yet. Open YouTube and play a video with an ad.</string>
+    <string name="back">Back</string>
+    <string name="settings_header">Skip timing</string>
+    <string name="settings_hint">Wait before skipping, so the creator still gets paid.</string>
+    <string name="wait_off">Off — skip instantly</string>
+    <string name="wait_5">Wait 5 seconds before skipping</string>
+    <string name="wait_15">Wait 10 seconds before skipping</string>
+    <string name="wait_30">Wait 15 seconds before skipping</string>
+    <string name="setup_hint">After tapping Enable, find Ad Skipper in the Accessibility list and turn it on.</string>
+    <string name="pause_list_button">Pause List</string>
+    <string name="pause_list_title">Pause List</string>
+    <string name="pause_list_hint">Ad Skipper pauses itself whenever any of these apps is in front. Add package names of apps that block Accessibility Services (banks, password managers, etc.).</string>
+    <string name="pause_list_add">Add</string>
+    <string name="pause_list_add_hint">Package name (e.g. com.example.bank)</string>
+    <string name="pause_list_reset">Reset Defaults</string>
+</resources>
