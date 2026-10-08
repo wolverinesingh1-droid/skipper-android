@@ -7,7 +7,6 @@ object Settings {
     private const val PREFS = "skipper_settings"
     private const val KEY_WAIT_SECONDS = "wait_seconds"
 
-    // Default: skip instantly
     const val DEFAULT_WAIT_SECONDS = 0
 
     fun getWaitSeconds(context: Context): Int {

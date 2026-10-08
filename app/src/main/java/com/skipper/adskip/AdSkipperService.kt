@@ -26,8 +26,8 @@ class AdSkipperService : AccessibilityService() {
         )
 
         private const val HEURISTIC_DELAY_MS = 2000L
-        private const val HEURISTIC_WINDOW_MS = 15000L  // only 15s after exact match
-        private const val CLICK_COOLDOWN_MS = 3000L     // max 1 click per 3s
+        private const val HEURISTIC_WINDOW_MS = 15000L
+        private const val CLICK_COOLDOWN_MS = 3000L
     }
 
     private var adFirstSeenAt: Long = 0
@@ -77,7 +77,6 @@ class AdSkipperService : AccessibilityService() {
     private fun handleAdSkip(root: AccessibilityNodeInfo) {
         val now = System.currentTimeMillis()
 
-        // First pass: exact match
         val exact = findSkipButtonExact(root)
         if (exact != null) {
             lastExactMatchAt = now
@@ -85,12 +84,10 @@ class AdSkipperService : AccessibilityService() {
             return
         }
 
-        // No exact match. Only try heuristic if we saw an exact match recently.
         if (lastExactMatchAt == 0L) return
 
         val sinceLastExact = now - lastExactMatchAt
         if (sinceLastExact > HEURISTIC_WINDOW_MS) {
-            // Ad is long over. Reset.
             lastExactMatchAt = 0
             adFirstSeenAt = 0
             return
@@ -107,10 +104,7 @@ class AdSkipperService : AccessibilityService() {
     private fun processClick(node: AccessibilityNodeInfo, source: String) {
         val now = System.currentTimeMillis()
 
-        // Rate-limit clicks
-        if (now - lastClickAt < CLICK_COOLDOWN_MS) {
-            return
-        }
+        if (now - lastClickAt < CLICK_COOLDOWN_MS) return
 
         if (adFirstSeenAt == 0L) {
             adFirstSeenAt = now
