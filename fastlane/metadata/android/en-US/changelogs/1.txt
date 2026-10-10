@@ -1,0 +1,7 @@
+﻿Initial release.
+
+- Auto-skip ads in YouTube and YouTube Music
+- Skip timing options (instant, 5s, 10s, 15s)
+- Pause list for sensitive apps
+- Skip log with timestamps
+- Heuristic fallback for YouTube UI updates

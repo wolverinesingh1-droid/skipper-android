@@ -1,0 +1,19 @@
+﻿Ad Skipper automatically skips ads in YouTube and YouTube Music by tapping the Skip button for you. It runs quietly in the background while those apps are open.
+
+Features:
+- Auto-skip ads in YouTube and YouTube Music
+- Skip timing: Off (instant) or wait 5, 10, or 15 seconds before skipping, so creators still get ad revenue
+- Pause list: automatically pauses itself when banking apps, password managers, and other Accessibility-sensitive apps are in front
+- Skip log: shows every skip with timestamp and button details
+- Heuristic fallback: survives YouTube UI updates by finding the Skip button's position when exact matching fails
+
+How it works:
+Ad Skipper uses Android's Accessibility Service API. It watches the screen while YouTube is in the foreground, finds the ad's Skip button, and taps it.
+
+It does not modify YouTube, does not use any network connection, and does not collect or send any data.
+
+Requirements:
+- Android 8.1 or newer
+- Accessibility Service must be enabled for this app
+
+Note: Ad Skipper cannot skip non-skippable ads. If YouTube does not show a Skip button, there is nothing for the app to tap.
