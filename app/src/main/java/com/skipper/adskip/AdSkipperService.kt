@@ -16,13 +16,20 @@ class AdSkipperService : AccessibilityService() {
         )
 
         private val BAD_WORDS = listOf(
+            // YouTube's own UI buttons
             "chapter", "segment", "next", "previous", "forward", "back",
             "10 seconds", "5 seconds", "double tap", "rewind", "queue",
             "playlist", "share", "save", "download", "subscribe", "like",
             "dislike", "comment", "settings", "menu", "close", "search",
             "home", "library", "trending", "subscriptions", "cast",
             "notification", "account", "profile", "more", "options",
-            "overflow", "collapse", "expand"
+            "overflow", "collapse", "expand",
+            // Phone and video-call buttons
+            "leave", "end", "hang", "call", "answer", "decline",
+            "mute", "unmute", "speaker", "camera", "video call",
+            // Common system buttons
+            "accept", "reject", "cancel", "confirm", "ok", "done",
+            "yes", "no", "delete", "remove", "install", "uninstall"
         )
 
         private const val HEURISTIC_DELAY_MS = 2000L
@@ -34,6 +41,7 @@ class AdSkipperService : AccessibilityService() {
     private var lastExactMatchAt: Long = 0
     private var lastClickAt: Long = 0
     private var pausedBySensitiveApp: Boolean = false
+    private var lastPackage: String = ""
 
     override fun onServiceConnected() {
         super.onServiceConnected()
@@ -45,6 +53,14 @@ class AdSkipperService : AccessibilityService() {
 
         val pkg = event.packageName?.toString() ?: return
 
+        // Package changed? Reset ad tracking so we don't carry state across apps.
+        if (pkg != lastPackage) {
+            Log.i(TAG, "Package changed: $lastPackage -> $pkg")
+            lastExactMatchAt = 0
+            adFirstSeenAt = 0
+            lastPackage = pkg
+        }
+
         if (PauseList.contains(applicationContext, pkg)) {
             if (!pausedBySensitiveApp) {
                 pausedBySensitiveApp = true
@@ -54,19 +70,20 @@ class AdSkipperService : AccessibilityService() {
             return
         }
 
-        if (pkg in YOUTUBE_PACKAGES) {
-            if (pausedBySensitiveApp) {
-                pausedBySensitiveApp = false
-                Log.i(TAG, "Resumed: $pkg")
-                SkipLog.record(applicationContext, "Resumed in: $pkg")
-            }
+        // Only handle YouTube and YouTube Music. Every other app is ignored.
+        if (pkg !in YOUTUBE_PACKAGES) return
 
-            val root = rootInActiveWindow ?: return
-            try {
-                handleAdSkip(root)
-            } catch (e: Exception) {
-                Log.w(TAG, "Error processing event", e)
-            }
+        if (pausedBySensitiveApp) {
+            pausedBySensitiveApp = false
+            Log.i(TAG, "Resumed: $pkg")
+            SkipLog.record(applicationContext, "Resumed in: $pkg")
+        }
+
+        val root = rootInActiveWindow ?: return
+        try {
+            handleAdSkip(root)
+        } catch (e: Exception) {
+            Log.w(TAG, "Error processing event", e)
         }
     }
 
