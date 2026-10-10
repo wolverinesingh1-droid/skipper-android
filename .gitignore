@@ -9,3 +9,11 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Keystore - NEVER commit
+skipper-release.jks
+*.jks
+*.keystore
+
+# Accidental junk
+= true
+{
